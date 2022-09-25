@@ -23,7 +23,7 @@ public class StudentCourse {
             referencedColumnName = "course_id"
     )
     @ManyToOne(
-            cascade = javax.persistence.CascadeType.ALL
+            cascade = CascadeType.ALL
     )
     private Course course;
 

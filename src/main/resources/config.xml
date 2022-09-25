@@ -47,4 +47,20 @@
         <property name="checkWriteOperations" value="false"/>
     </bean>
 
+    <bean class="RepositoryImplementation.DepartmentRepositoryImplementation" name="departmentRepositoryImplementation">
+        <constructor-arg ref="hibernateTemplate"/>
+    </bean>
+
+    <bean class="RepositoryImplementation.CourseRepositoryImplementation" name="courseRepositoryImplementation">
+        <constructor-arg ref="hibernateTemplate"/>
+    </bean>
+
+    <bean class="RepositoryImplementation.StudentRepositoryImplementation" name="studentRepositoryImplementation">
+        <constructor-arg ref="hibernateTemplate"/>
+    </bean>
+
+    <bean class="RepositoryImplementation.StudentCourseRepositoryImplementation" name="studentCourseRepositoryImplementation">
+        <constructor-arg ref="hibernateTemplate"/>
+    </bean>
+
 </beans>
