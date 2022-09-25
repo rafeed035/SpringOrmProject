@@ -153,13 +153,19 @@ public class Executor {
                         int courseId = Integer.parseInt(bufferedReader.readLine());
 
                         Course course = courseRepositoryImplementation.getCourse(courseId);
-                        Department courseDepartment = courseRepositoryImplementation.getCourse(courseId).getDepartment();
-                        String courseDepartmentName = courseDepartment.getDepartmentName();
-                        System.out.println(course.getCourseId() +
-                                " | " +
-                                course.getCourseName() +
-                                " | " +
-                                "Department : " + courseDepartmentName);
+
+                        if(course != null){
+                            Department courseDepartment = courseRepositoryImplementation.getCourse(courseId).getDepartment();
+                            String courseDepartmentName = courseDepartment.getDepartmentName();
+                            System.out.println(course.getCourseId() +
+                                    " | " +
+                                    course.getCourseName() +
+                                    " | " +
+                                    "Department : " + courseDepartmentName);
+                        }
+                        else{
+                            System.out.println("Course with id: " + courseId + " does not exists.");
+                        }
                         System.out.println("\n");
                         break;
 
@@ -168,44 +174,56 @@ public class Executor {
                         System.out.println("Enter Course Id: ");
                         int newCourseId = Integer.parseInt(bufferedReader.readLine());
 
-                        System.out.println("Enter Brand Name: ");
+                        System.out.println("Enter Course Name: ");
                         String newCourseName = bufferedReader.readLine();
 
-                        System.out.println("Enter Category Id: ");
-                        int brandCategoryId = Integer.parseInt(bufferedReader.readLine());
+                        System.out.println("Enter Department Id: ");
+                        int newCourseDepartmentId = Integer.parseInt(bufferedReader.readLine());
 
-                        Brand brandNew = new Brand(newBrandId, newBrandName, brandCategoryId);
-                        int brandInsertResult = brandRepositoryImplementation.insertBrand(brandNew);
-                        System.out.println("New Brand Inserted with id = " + brandInsertResult);
+                        Department newCourseDepartment = departmentRepositoryImplementation.getDepartment(newCourseDepartmentId);
 
+                        if(newCourseDepartment == null){
+
+                        }
+                        else{
+                            Course newCourse = new Course(newCourseId, newCourseName, newCourseDepartment);
+                            courseRepositoryImplementation.insertCourse(newCourse);
+                            System.out.println("New Course Inserted");
+                        }
                         System.out.println("\n");
                         break;
 
-                    //update a new brand
+                    //update a new Course
                     case 9:
-                        System.out.println("Enter Brand Id: ");
-                        int updateBrandId = Integer.parseInt(bufferedReader.readLine());
+                        System.out.println("Enter Course Id: ");
+                        int updateCourseId = Integer.parseInt(bufferedReader.readLine());
 
-                        System.out.println("Enter Brand Name: ");
-                        String updateBrandName = bufferedReader.readLine();
+                        System.out.println("Enter Course Name: ");
+                        String updateCourseName = bufferedReader.readLine();
 
-                        System.out.println("Enter Category Id: ");
-                        int updateBrandCategoryId = Integer.parseInt(bufferedReader.readLine());
+                        System.out.println("Enter Department Id: ");
+                        int updateCourseDepartmentId = Integer.parseInt(bufferedReader.readLine());
 
-                        Brand brandUpdate = new Brand(updateBrandId, updateBrandName, updateBrandCategoryId);
-                        int brandUpdateResult = brandRepositoryImplementation.updateBrand(brandUpdate);
-                        System.out.println("Brand updated with id = " + brandUpdateResult);
+                        Department updateCourseDepartment = departmentRepositoryImplementation.getDepartment(updateCourseDepartmentId);
 
+                        if(updateCourseDepartment == null){
+                            System.out.println("Department with id: " + updateCourseDepartmentId + " does not exist. Please add the Department first.");
+                        }
+                        else{
+                            Course updateCourse = new Course(updateCourseId, updateCourseName, updateCourseDepartment);
+                            courseRepositoryImplementation.updateCourse(updateCourse);
+                            System.out.println("Course Updated");
+                        }
                         System.out.println("\n");
                         break;
 
-                    // delete a brand
+                    // delete a Course
                     case 10:
-                        System.out.println("Enter Brand Id: ");
-                        int brandDeleteId = Integer.parseInt(bufferedReader.readLine());
+                        System.out.println("Enter Course Id: ");
+                        int deleteCourseId = Integer.parseInt(bufferedReader.readLine());
 
-                        int deleteBrandResult = brandRepositoryImplementation.deleteBrand(brandDeleteId);
-                        System.out.println("Deleted category with id = " + deleteBrandResult);
+                        courseRepositoryImplementation.deleteCourse(deleteCourseId);
+                        System.out.println("Deleted Course");
 
                         System.out.println("\n");
                         break;
