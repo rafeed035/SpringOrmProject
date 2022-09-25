@@ -9,5 +9,5 @@ public interface StudentCourseRepository {
     void updateStudentCourse(StudentCourse studentCourse);
     void deleteStudentCourse(int studentCourseId);
     StudentCourse getStudentCourse(int studentCourseId);
-    List<StudentCourse> getAllStudentCourses(int studentId);
+    List<StudentCourse> getAllStudentCourses();
 }

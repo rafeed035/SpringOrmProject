@@ -50,22 +50,26 @@ public class Executor {
             System.out.println("\n");
             System.out.println("=================Options=================");
 
-            System.out.println("\n1. View all Departments  " +
+            System.out.println("\n" +
+                    "1. View all Departments  " +
                     "2. View a Department  " +
                     "3. Add new Department  " +
                     "4. Update a Department  " +
                     "5. Delete a Department  " +
-                    "\n\n6. View all Courses  " +
+                    "\n\n" +
+                    "6. View all Courses  " +
                     "7. View a Course  " +
                     "8. Add new Course  " +
                     "9. Update a Course  " +
                     "10. Delete a Course  " +
-                    "\n\n11. View all Students  " +
+                    "\n\n" +
+                    "11. View all Students  " +
                     "12. View a Student  " +
                     "13. Add new Student  " +
                     "14. Update a Student  " +
                     "15. Delete a Student  " +
-                    "\n\n16. Exit");
+                    "\n\n" +
+                    "16. Exit");
 
             System.out.println("\n=================Your Choice=================");
             System.out.println("\nYour Choice: ");
@@ -245,7 +249,9 @@ public class Executor {
                         System.out.println("Enter Student Id: ");
                         int studentId = Integer.parseInt(bufferedReader.readLine());
                         Student student = studentRepositoryImplementation.getStudent(studentId);
-                        List<StudentCourse> studentCourses = studentCourseRepositoryImplementation.getAllStudentCourses(studentId);
+                        List<StudentCourse> studentCourses = studentCourseRepositoryImplementation.getAllStudentCourses();
+
+
 
                         System.out.println(student.getStudentId() +
                                 " | Name: " +
@@ -254,7 +260,15 @@ public class Executor {
                                 student.getStudentAddress());
                         System.out.println("\n Courses taken:");
                         for(int i = 0; i < studentCourses.size(); i++){
-                            String courseName = studentCourses.get(i).getCourse().getCourseName();
+                            int studentIdToMatch = studentCourses.get(i).getStudent().getStudentId();
+                            String courseName = null;
+                            if(studentIdToMatch == studentId){
+                                courseName = studentCourses.get(i).getCourse().getCourseName();
+                            }
+                            else{
+                                courseName = "No Course";
+                            }
+
                             System.out.println(i+1 + " " + courseName);
                         }
 
