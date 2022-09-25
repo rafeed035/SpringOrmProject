@@ -69,15 +69,13 @@ public class Executor {
 
             System.out.println("\n=================Your Choice=================");
             System.out.println("\nYour Choice: ");
-
+            System.out.println("-----------------------------------------------------------------------------------");
             try {
                 int choice = Integer.parseInt(bufferedReader.readLine());
                 switch (choice){
 
                     //Department
                     //view all departments
-                    System.out.println("-----------------------------------------------------------------------------------");
-
                     case 1:
                         for(int i = 0; i < departments.size(); i++){
                             System.out.println(departments.get(i).getDepartmentId() + " " + departments.get(i).getDepartmentName());
