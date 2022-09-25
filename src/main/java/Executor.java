@@ -1,6 +1,7 @@
 import Entity.Course;
 import Entity.Department;
 import Entity.Student;
+import Entity.StudentCourse;
 import RepositoryImplementation.CourseRepositoryImplementation;
 import RepositoryImplementation.DepartmentRepositoryImplementation;
 import RepositoryImplementation.StudentCourseRepositoryImplementation;
@@ -228,105 +229,83 @@ public class Executor {
                         System.out.println("\n");
                         break;
 
-                    //Product
-                    //view all products
+                    //Student
+                    //view all Students
                     case 11:
-                        for(int i = 0; i < products.size(); i++){
-                            Category productCategory = categoryRepositoryImplementation.getCategory(products.get(i).getCategoryId());
-                            String allProductCategoryName = productCategory.getCategoryName();
-                            Brand productBrand = brandRepositoryImplementation.getBrand(products.get(i).getBrandId());
-                            String allProductBrandName = productBrand.getBrandName();
-                            System.out.println(products.get(i).getProductId() +
-                                    " " + products.get(i).getProductName() +
-                                    " | Price : " + products.get(i).getProductPrice() +
-                                    " | Category : " + allProductCategoryName +
-                                    " | Brand : " + allProductBrandName);
+                        for(int i = 0; i < students.size(); i++){
+                            System.out.println(students.get(i).getStudentId() +
+                                    " | Name: " +
+                                     students.get(i).getStudentName() +
+                                    " | Address : " +
+                                    students.get(i).getStudentAddress());
                         }
                         System.out.println("\n");
                         break;
 
-                    //view a product
+                    //view a Student
                     case 12:
-                        System.out.println("Enter Product Id: ");
-                        int productId = Integer.parseInt(bufferedReader.readLine());
+                        System.out.println("Enter Student Id: ");
+                        int studentId = Integer.parseInt(bufferedReader.readLine());
+                        Student student = studentRepositoryImplementation.getStudent(studentId);
+                        List<StudentCourse> studentCourses = studentCourseRepositoryImplementation.getAllStudentCourses(studentId);
 
-                        Product product = productRepositoryImplementation.getProduct(productId);
-                        Brand productBrand = brandRepositoryImplementation.getBrand(product.getBrandId());
-                        Category productCategory = categoryRepositoryImplementation.getCategory(product.getCategoryId());
-                        String productCategoryName = productCategory.getCategoryName();
-                        String productBrandName = productBrand.getBrandName();
-                        System.out.println(product.getProductId() +
-                                " " + product.getProductName() +
-                                " | Price : " + product.getProductPrice() +
-                                " | Category : " + productCategoryName +
-                                " | Brand : " + productBrandName);
+                        System.out.println(student.getStudentId() +
+                                " | Name: " +
+                                student.getStudentName() +
+                                " | Address : " +
+                                student.getStudentAddress());
+                        System.out.println("\n Courses taken:");
+                        for(int i = 0; i < studentCourses.size(); i++){
+                            String courseName = studentCourses.get(i).getCourse().getCourseName();
+                            System.out.println(i+1 + " " + courseName);
+                        }
 
                         System.out.println("\n");
                         break;
 
-                    //add a new product
+                    //add a new Student
                     case 13:
-                        System.out.println("Enter Product Id: ");
-                        int newProductId = Integer.parseInt(bufferedReader.readLine());
+                        System.out.println("Enter Student Id: ");
+                        int newStudentId = Integer.parseInt(bufferedReader.readLine());
 
-                        System.out.println("Enter Product Name: ");
-                        String newProductName = bufferedReader.readLine();
+                        System.out.println("Enter Student Name: ");
+                        String newStudentName = bufferedReader.readLine();
 
-                        System.out.println("Enter Product Price: ");
-                        int newProductPrice = Integer.parseInt(bufferedReader.readLine());
+                        System.out.println("Enter Student Address: ");
+                        String newStudentAddress = bufferedReader.readLine();
 
-                        System.out.println("Enter Product Category Id: ");
-                        int newProductCategoryId = Integer.parseInt(bufferedReader.readLine());
-
-                        System.out.println("Enter Product Brand Id: ");
-                        int newProductBrandId = Integer.parseInt(bufferedReader.readLine());
-
-                        Product productNew = new Product(newProductId,
-                                newProductName,
-                                newProductPrice,
-                                newProductCategoryId,
-                                newProductBrandId);
-                        int insertProductResult = productRepositoryImplementation.insertProduct(productNew);
-                        System.out.println("New Product Inserted with id = " + insertProductResult);
+                        Student studentNew = new Student(newStudentId, newStudentName, newStudentAddress);
+                        studentRepositoryImplementation.insertStudent(studentNew);
+                        System.out.println("New Student inserted");
 
                         System.out.println("\n");
                         break;
 
                     //update a new product
                     case 14:
-                        System.out.println("Enter Product Id: ");
-                        int updateProductId = Integer.parseInt(bufferedReader.readLine());
+                        System.out.println("Enter Student Id: ");
+                        int updateStudentId = Integer.parseInt(bufferedReader.readLine());
 
-                        System.out.println("Enter Product Name: ");
-                        String updateProductName = bufferedReader.readLine();
+                        System.out.println("Enter Student Name: ");
+                        String updateStudentName = bufferedReader.readLine();
 
-                        System.out.println("Enter Product Price: ");
-                        int updateProductPrice = Integer.parseInt(bufferedReader.readLine());
+                        System.out.println("Enter Student Address: ");
+                        String updateStudentAddress = bufferedReader.readLine();
 
-                        System.out.println("Enter Product Category Id: ");
-                        int updateProductCategoryId = Integer.parseInt(bufferedReader.readLine());
-
-                        System.out.println("Enter Product Brand Id: ");
-                        int updateProductBrandId = Integer.parseInt(bufferedReader.readLine());
-
-                        Product productUpdate = new Product(updateProductId,
-                                updateProductName,
-                                updateProductPrice,
-                                updateProductCategoryId,
-                                updateProductBrandId);
-                        int productUpdateResult = productRepositoryImplementation.updateProduct(productUpdate);
-                        System.out.println("Brand updated with id = " + productUpdateResult);
+                        Student studentUpdate = new Student(updateStudentId, updateStudentName, updateStudentAddress);
+                        studentRepositoryImplementation.updateStudent(studentUpdate);
+                        System.out.println("New Student updated");
 
                         System.out.println("\n");
                         break;
 
                     //delete a product
                     case 15:
-                        System.out.println("Enter Product Id: ");
-                        int productDeleteId = Integer.parseInt(bufferedReader.readLine());
+                        System.out.println("Enter Student Id: ");
+                        int studentDeleteId = Integer.parseInt(bufferedReader.readLine());
 
-                        int deleteProductResult = productRepositoryImplementation.deleteProduct(productDeleteId);
-                        System.out.println("Deleted Product with id = " + deleteProductResult);
+                        studentRepositoryImplementation.deleteStudent(studentDeleteId);
+                        System.out.println("Deleted Student ");
 
                         System.out.println("\n");
                         break;
