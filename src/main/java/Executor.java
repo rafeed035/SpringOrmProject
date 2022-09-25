@@ -138,38 +138,38 @@ public class Executor {
                         for(int i = 0; i < courses.size(); i++){
                             Department allCourseDepartments = departmentRepositoryImplementation.getDepartment(courses.get(i).getDepartment().getDepartmentId());
                             String allCoursesDepartmentName = allCourseDepartments.getDepartmentName();
-                            System.out.println(brands.get(i).getBrandId() +
+                            System.out.println(courses.get(i).getCourseId() +
                                     " | " +
-                                    brands.get(i).getBrandName() +
-                                    " | Category : " + allBrandCategoryName);
-
+                                    courses.get(i).getCourseName() +
+                                    " | " +
+                                    "Department : " + allCoursesDepartmentName);
                         }
                         System.out.println("\n");
                         break;
 
-                    //view a particular brand
+                    //view a particular Course
                     case 7:
-                        System.out.println("Enter Brand Id: ");
-                        int brandId = Integer.parseInt(bufferedReader.readLine());
+                        System.out.println("Enter Course Id: ");
+                        int courseId = Integer.parseInt(bufferedReader.readLine());
 
-                        Brand brand = brandRepositoryImplementation.getBrand(brandId);
-                        Category brandCategory = categoryRepositoryImplementation.getCategory(brand.getCategory_id());
-                        String brandCategoryName = brandCategory.getCategoryName();
-                        System.out.println(brand.getBrandId() +
+                        Course course = courseRepositoryImplementation.getCourse(courseId);
+                        Department courseDepartment = courseRepositoryImplementation.getCourse(courseId).getDepartment();
+                        String courseDepartmentName = courseDepartment.getDepartmentName();
+                        System.out.println(course.getCourseId() +
                                 " | " +
-                                brand.getBrandName() +
+                                course.getCourseName() +
                                 " | " +
-                                "Category : " + brandCategoryName);
+                                "Department : " + courseDepartmentName);
                         System.out.println("\n");
                         break;
 
-                    //add a new brand
+                    //add a new Course
                     case 8:
-                        System.out.println("Enter Brand Id: ");
-                        int newBrandId = Integer.parseInt(bufferedReader.readLine());
+                        System.out.println("Enter Course Id: ");
+                        int newCourseId = Integer.parseInt(bufferedReader.readLine());
 
                         System.out.println("Enter Brand Name: ");
-                        String newBrandName = bufferedReader.readLine();
+                        String newCourseName = bufferedReader.readLine();
 
                         System.out.println("Enter Category Id: ");
                         int brandCategoryId = Integer.parseInt(bufferedReader.readLine());
