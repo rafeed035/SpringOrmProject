@@ -16,8 +16,8 @@
     <bean class="org.springframework.jdbc.datasource.DriverManagerDataSource" name="driverManagerDataSource">
         <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
         <property name="url" value="jdbc:mysql://localhost:3306/spring_core_db"/>
-        <property name="username" value="root"/>
-        <property name="password" value="rafeed2030"/>
+        <property name="username" value="<username>"/>
+        <property name="password" value="<password>"/>
     </bean>
 
     <bean class="org.springframework.orm.hibernate5.LocalSessionFactoryBean" name="localSessionFactoryBean">
