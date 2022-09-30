@@ -30,7 +30,8 @@ public class CourseRepositoryImplementation implements CourseRepository {
     @Transactional
     @Override
     public void deleteCourse(int courseId) {
-        hibernateTemplate.delete(courseId);
+        Course deleteCourse = hibernateTemplate.get(Course.class, courseId);
+        hibernateTemplate.delete(deleteCourse);
     }
 
     @Override

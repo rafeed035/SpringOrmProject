@@ -2,6 +2,10 @@ import Entity.Course;
 import Entity.Department;
 import Entity.Student;
 import Entity.StudentCourse;
+import Repository.CourseRepository;
+import Repository.DepartmentRepository;
+import Repository.StudentCourseRepository;
+import Repository.StudentRepository;
 import RepositoryImplementation.CourseRepositoryImplementation;
 import RepositoryImplementation.DepartmentRepositoryImplementation;
 import RepositoryImplementation.StudentCourseRepositoryImplementation;
@@ -17,17 +21,17 @@ public class Executor {
     public static void main(String[] args) {
         ApplicationContext applicationContext = new ClassPathXmlApplicationContext("config.xml");
 
-        DepartmentRepositoryImplementation departmentRepositoryImplementation
-                = applicationContext.getBean("departmentRepositoryImplementation", DepartmentRepositoryImplementation.class);
+        DepartmentRepository departmentRepositoryImplementation
+                = (DepartmentRepository) applicationContext.getBean("departmentRepositoryImplementation");
 
-        CourseRepositoryImplementation courseRepositoryImplementation
-                = applicationContext.getBean("courseRepositoryImplementation", CourseRepositoryImplementation.class);
+        CourseRepository courseRepositoryImplementation
+                = (CourseRepository) applicationContext.getBean("courseRepositoryImplementation");
 
-        StudentRepositoryImplementation studentRepositoryImplementation
-                = applicationContext.getBean("studentRepositoryImplementation", StudentRepositoryImplementation.class);
+        StudentRepository studentRepositoryImplementation
+                = (StudentRepository) applicationContext.getBean("studentRepositoryImplementation");
 
-        StudentCourseRepositoryImplementation studentCourseRepositoryImplementation
-                = applicationContext.getBean("studentCourseRepositoryImplementation", StudentCourseRepositoryImplementation.class);
+        StudentCourseRepository studentCourseRepositoryImplementation
+                = (StudentCourseRepository) applicationContext.getBean("studentCourseRepositoryImplementation");
 
 
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
@@ -251,14 +255,14 @@ public class Executor {
                         Student student = studentRepositoryImplementation.getStudent(studentId);
                         List<StudentCourse> studentCourses = studentCourseRepositoryImplementation.getAllStudentCourses();
 
-
-
                         System.out.println(student.getStudentId() +
                                 " | Name: " +
                                 student.getStudentName() +
                                 " | Address : " +
                                 student.getStudentAddress());
+
                         System.out.println("\n Courses taken:");
+
                         for(int i = 0; i < studentCourses.size(); i++){
                             int studentIdToMatch = studentCourses.get(i).getStudent().getStudentId();
                             String courseName = null;
@@ -288,12 +292,32 @@ public class Executor {
 
                         Student studentNew = new Student(newStudentId, newStudentName, newStudentAddress);
                         studentRepositoryImplementation.insertStudent(studentNew);
+
+                        System.out.println("\nSelect the courses. Maximum 5 courses.");
+                        List<Course>courseList = courseRepositoryImplementation.getAllCourses();
+                        for(int i = 0; i < courseList.size(); i++){
+                            Department courseDepartment = departmentRepositoryImplementation.getDepartment(courseList.get(i).getDepartment().getDepartmentId());
+                            String courseDepartmentName = courseDepartment.getDepartmentName();
+                            System.out.println(courseList.get(i).getCourseId() +
+                                    " | Course Name: " +
+                                     courseList.get(i).getCourseName()+
+                                    " | Department Name: " +
+                                    courseDepartmentName);
+                        }
+                        System.out.println("Your choice: ");
+                        for(int i = 0; i < 5; i++){
+                            int courseChoice = Integer.parseInt(bufferedReader.readLine());
+                            Course studentCourseChoice = courseRepositoryImplementation.getCourse(courseChoice);
+                            StudentCourse studentCourse = new StudentCourse(studentNew, studentCourseChoice);
+                            studentCourseRepositoryImplementation.insertStudentCourse(studentCourse);
+                        }
+
                         System.out.println("New Student inserted");
 
                         System.out.println("\n");
                         break;
 
-                    //update a new product
+                    //update a Student
                     case 14:
                         System.out.println("Enter Student Id: ");
                         int updateStudentId = Integer.parseInt(bufferedReader.readLine());
@@ -306,12 +330,44 @@ public class Executor {
 
                         Student studentUpdate = new Student(updateStudentId, updateStudentName, updateStudentAddress);
                         studentRepositoryImplementation.updateStudent(studentUpdate);
-                        System.out.println("New Student updated");
+
+                        Student studentUpdated = studentRepositoryImplementation.getStudent(updateStudentId);
+
+                        System.out.println("Update Courses? Type Y for yes and N for no");
+                        String ynChoice = bufferedReader.readLine();
+                        if(ynChoice.equals("Y") || ynChoice.equals("y")){
+                            System.out.println("\nSelect the courses. Maximum 5 courses.");
+                            List<Course>updateCourseList = courseRepositoryImplementation.getAllCourses();
+                            for(int i = 0; i <updateCourseList.size(); i++){
+                                String updateCourseDepartmentName = departmentRepositoryImplementation
+                                        .getDepartment(updateCourseList
+                                                .get(i)
+                                                .getDepartment()
+                                                .getDepartmentId())
+                                        .getDepartmentName();
+                                System.out.println(updateCourseList.get(i).getCourseId() +
+                                        " | Name: " +
+                                        updateCourseList.get(i).getCourseName() +
+                                        " | Department Name: " +
+                                        updateCourseDepartmentName);
+                                System.out.println("\nYour Choice: ");
+                                for(int j = 0; j < 5; j++){
+                                    int updateCourseChoice = Integer.parseInt(bufferedReader.readLine());
+                                    Course updateCourse = courseRepositoryImplementation.getCourse(updateCourseChoice);
+                                    StudentCourse updateStudentCourse = new StudentCourse(studentUpdated, updateCourse);
+                                    studentCourseRepositoryImplementation.updateStudentCourse(updateStudentCourse);
+                                }
+                            }
+                        }else{
+                            System.out.println("No courses updated/changed.");
+                        }
+
+                        System.out.println("Student updated");
 
                         System.out.println("\n");
                         break;
 
-                    //delete a product
+                    //delete a Student
                     case 15:
                         System.out.println("Enter Student Id: ");
                         int studentDeleteId = Integer.parseInt(bufferedReader.readLine());
@@ -330,6 +386,5 @@ public class Executor {
                 e.printStackTrace();
             }
         }
-
     }
 }

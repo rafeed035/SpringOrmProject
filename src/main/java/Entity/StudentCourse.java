@@ -7,8 +7,20 @@ import javax.persistence.ManyToOne;
 import javax.persistence.*;
 
 @Entity
+@Table(
+        name = "student_course"
+)
 public class StudentCourse {
     @Id
+    @SequenceGenerator(
+            name = "studentCourse_id_sequence",
+            sequenceName = "studentCourse_id_sequence",
+            allocationSize = 1
+    )
+    @GeneratedValue(
+            generator = "studentCourse_id_sequence",
+            strategy = GenerationType.SEQUENCE
+    )
     private int id;
     @JoinColumn(
             name = "student_id",
@@ -27,8 +39,7 @@ public class StudentCourse {
     )
     private Course course;
 
-    public StudentCourse(int id, Student student, Course course) {
-        this.id = id;
+    public StudentCourse(Student student, Course course) {
         this.student = student;
         this.course = course;
     }

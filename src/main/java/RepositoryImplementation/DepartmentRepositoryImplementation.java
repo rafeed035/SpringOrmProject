@@ -30,7 +30,8 @@ public class DepartmentRepositoryImplementation implements DepartmentRepository 
     @Transactional
     @Override
     public void deleteDepartment(int departmentId) {
-        hibernateTemplate.delete(departmentId);
+        Department deleteDepartment = hibernateTemplate.get(Department.class, departmentId);
+        hibernateTemplate.delete(deleteDepartment);
     }
 
     @Override

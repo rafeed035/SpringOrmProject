@@ -30,7 +30,8 @@ public class StudentRepositoryImplementation implements StudentRepository {
     @Transactional
     @Override
     public void deleteStudent(int studentId) {
-        hibernateTemplate.delete(studentId);
+        Student deleteStudent = hibernateTemplate.get(Student.class, studentId);
+        hibernateTemplate.delete(deleteStudent);
     }
 
     @Override
