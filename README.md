@@ -4,7 +4,7 @@ The Project is a demo record system of a college.
 Where details about the Department, Courses and the Students will be recorded.
 Also, will be recorded the courses taken by each student. This is a basic CRUD application with the Spring framework using ORM (Hibernate).
 
-How to run the application:
+**How to run the application:**
 
 1. Clone/Download the project.
 2. Import/Open the project in any IDE (example - Intellij IDEA [community/ultimate], NetBeans, etc).
